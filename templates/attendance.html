@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance Records - Face Recognition Attendance{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>Attendance Records</h5>
+        <a href="{{ url_for('export_attendance') }}" class="btn btn-success">Export to CSV</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record[0] }}</td>
+                    <td>{{ record[1] }}</td>
+                    <td>{{ record[2] }}</td>
+                    <td>{{ record[3] }}</td>
+                    <td>{% if record[4] %}{{ "%.2f"|format(record[4]) }}%{% else %}N/A{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

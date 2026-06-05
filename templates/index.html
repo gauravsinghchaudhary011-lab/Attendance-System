@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Face Recognition Attendance{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="{{ url_for('train_model') }}" class="btn btn-primary mb-2">Train Model</a>
+                <a href="{{ url_for('start_recognition') }}" class="btn btn-success mb-2">Start Recognition</a>
+                <a href="{{ url_for('export_attendance') }}" class="btn btn-info">Export Attendance</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>System Status</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Total Students:</strong> {{ students|length }}</p>
+                <p><strong>Model Trained:</strong> {% if 'model/face_model.yml' in students %}Yes{% else %}No{% endif %}</p>
+                <p><strong>Attendance Records:</strong> {{ attendance|length }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Attendance</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in attendance %}
+                        <tr>
+                            <td>{{ record[1] }}</td>
+                            <td>{{ record[2] }}</td>
+                            <td>{{ record[3] }}</td>
+                            <td>{{ "%.2f"|format(record[4]) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
